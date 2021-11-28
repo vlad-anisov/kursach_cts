@@ -12,9 +12,9 @@ bot = telebot.TeleBot(TOKEN)
 def start_message(message):
     cities = message.text.split(",")
     cities = [city.strip() for city in cities]
-    first_part(cities)
-    with open('first_table.xlsx', 'rb') as file:
-        bot.send_document(message.chat.id, file)
+    # first_part(cities)
+    # with open('first_table.xlsx', 'rb') as file:
+    #     bot.send_document(message.chat.id, file)
     get_map(cities, cities)
     # with open('Матрица расстояний.txt', encoding='utf8') as text:
     #     bot.send_message(message.chat.id, text.read())
