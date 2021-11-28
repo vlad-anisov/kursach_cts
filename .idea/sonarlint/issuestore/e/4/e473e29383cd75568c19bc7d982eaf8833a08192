@@ -1,0 +1,7 @@
+
+6python:S125"Remove this commented out code.(Õëõ˜
+Tpython:S5754"<Specify an exception class to catch or reraise the exception(ˆÊÉ·
+dpython:S117"MRename this parameter "N" to match the regular expression ^[_a-z][a-z0-9_]*$.(æ™¦É
+ipython:S117"MRename this parameter "N" to match the regular expression ^[_a-z][a-z0-9_]*$.(²åÅùıÿÿÿÿ
+ipython:S117""MRename this parameter "N" to match the regular expression ^[_a-z][a-z0-9_]*$.(¾°÷óùÿÿÿÿ
+dpython:S117&"MRename this parameter "N" to match the regular expression ^[_a-z][a-z0-9_]*$.(ûµÜ–

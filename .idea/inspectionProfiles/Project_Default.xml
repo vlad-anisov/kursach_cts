@@ -1,0 +1,16 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="PyUnresolvedReferencesInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredIdentifiers">
+        <list>
+          <option value="fleet.vehicle.display_name" />
+          <option value="techelectro.purchase.import.log.company_" />
+          <option value="odoo.addons.alfaleads_crm.models.account_reconciliation_act_import_statements.reconciliation_act_line_ids" />
+          <option value="odoo.addons.alfaleads_crm.models.account_reconciliation_act_import_statements.filtered" />
+        </list>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="TaskProblemsInspection" enabled="true" level="ERROR" enabled_by_default="true" />
+  </profile>
+</component>

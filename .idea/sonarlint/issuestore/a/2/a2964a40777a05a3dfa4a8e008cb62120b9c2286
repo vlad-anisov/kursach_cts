@@ -1,0 +1,7 @@
+
+lpython:S3776"TRefactor this function to reduce its Cognitive Complexity from 24 to the 15 allowed.( ¿»¾
+fpython:S1542 "NRename function "bestEdge" to match the regular expression ^[a-z_][a-z0-9_]*$.(”Ò¬µ
+lpython:S3776 "TRefactor this function to reduce its Cognitive Complexity from 38 to the 15 allowed.(”Ò¬µ
+qpython:S3776>"TRefactor this function to reduce its Cognitive Complexity from 35 to the 15 allowed.(îØ§¸øÿÿÿÿ
+Fpython:S1481€"(Remove the unused local variable "cost".(Ø‚×‚üÿÿÿÿ
+Apython:S1481‰"(Remove the unused local variable "cost".(¯èÜú

@@ -1,0 +1,9 @@
+
+Bpython:S125*"Remove this commented out code.(†·â—ùÿÿÿÿ8·âµ»Ô/
+=python:S1481µ"%Remove the unused local variable "j".(„Éˆ,
+=python:S1481µ"%Remove the unused local variable "i".(„Éˆ,
+jpython:S117Æ"MRename this parameter "D" to match the regular expression ^[_a-z][a-z0-9_]*$.(Çñ¿ßûÿÿÿÿ
+kpython:S117Æ"NRename this parameter "Pr" to match the regular expression ^[_a-z][a-z0-9_]*$.(Çñ¿ßûÿÿÿÿ
+kpython:S117×"SRename this local variable "Pr" to match the regular expression ^[_a-z][a-z0-9_]*$.(¡‹æÉ
+kpython:S117î"SRename this local variable "Pr" to match the regular expression ^[_a-z][a-z0-9_]*$.(¡‹æÉ
+<python:S125û"Remove this commented out code.(‡ÅÔÊýÿÿÿÿ
