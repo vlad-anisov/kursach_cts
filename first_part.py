@@ -41,7 +41,7 @@ def write_erlang_data():
                 erlang_value = float(sheet2.cell(i - 1, j).value)
                 sheet.cell(row=i, column=j).value = erlang.extended_b_lines(erlang_value, 0.01)
         if i in [3, 6]:
-            for j in range(3, 26):
+            for j in range(3, 27):
                 sheet.cell(row=i, column=j).value = str(sheet2.cell(i, j).value).replace('.', ',')
     wb.save("first_table.xlsx")
 
