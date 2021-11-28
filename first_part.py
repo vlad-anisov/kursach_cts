@@ -1,11 +1,6 @@
-from io import BytesIO
-
 from openpyxl import load_workbook
 from xltpl.writerx import BookWriter
 import erlang
-from xlcalculator import ModelCompiler
-from xlcalculator import Model
-from xlcalculator import Evaluator
 import formulas
 
 
@@ -23,9 +18,6 @@ def get_data(cities):
 
 
 def write_erlang_data():
-    # compiler = ModelCompiler()
-    # new_model = compiler.read_and_parse_archive(r"test_1.xlsx")
-    # evaluator = Evaluator(new_model)
     xl_model = formulas.ExcelModel().loads("test_1.xlsx").finish()
     xl_model.calculate()
     xl_model.write(dirpath="calculate")
@@ -34,10 +26,8 @@ def write_erlang_data():
     wb2 = load_workbook("calculate/test_1.xlsx")
     sheet2 = wb2.worksheets[0]
     for i in range(1, sheet.max_row + 1):
-        value = sheet.cell(row=i, column=1).value
         if i in [11, 15]:
             for j in range(3, 26, 2):
-                # erlang_value = evaluator.evaluate(f'sheet!{sheet.cell(i - 1, j).coordinate}')
                 erlang_value = float(sheet2.cell(i - 1, j).value)
                 sheet.cell(row=i, column=j).value = erlang.extended_b_lines(erlang_value, 0.01)
         if i in [3, 6]:
