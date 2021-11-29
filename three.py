@@ -121,7 +121,7 @@ def get_matrix(cities):
     df.columns += 1
     df = df.style.set_properties(**{'text-align': 'center'})
     df = df.set_table_styles([{'selector': '', 'props': [('border', '1px solid black')]}, {'selector': 'th', 'props': [('text-align', 'center')]}])
-    dfi.export(df, 'matrix.png')
+    dfi.export(df, 'matrix.png', table_conversion='matplotlib')
     return matrix
 
 

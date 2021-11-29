@@ -83,3 +83,4 @@ xlwt==1.3.0
 yarl==1.7.2
 yearfrac==0.4.4
 zipp==3.6.0
+lxml==4.6.4
