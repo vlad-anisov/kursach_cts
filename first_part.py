@@ -11,6 +11,10 @@ def first_part(cities, bot, message):
     with open('first_table.xlsx', 'rb') as file:
         bot.send_document(message.chat.id, file)
 
+    write_second_data(data)
+    with open('second_table.xlsx', 'rb') as file:
+        bot.send_document(message.chat.id, file)
+
 
 def get_data(cities):
     wb = load_workbook("cities.xlsx")
@@ -19,6 +23,16 @@ def get_data(cities):
     for city in cities:
         data.append(get_city_data(city, sheet))
     return data
+
+
+def write_second_data(data_of_cities):
+    rows = list(map(list, zip(*data_of_cities)))
+    cities = rows[0]
+    context = {
+        "cities": cities,
+        "population_sizes": [item for sublist in list(zip(rows[1], rows[2])) for item in sublist],
+    }
+    create_xlsx_report(context, "template_2.xlsx", "second_table.xlsx")
 
 
 def write_erlang_data():
@@ -71,15 +85,15 @@ def write_cities_data(data_of_cities):
         "norms_of_telephone_density": get_norms_of_telephone_density(population_sizes),
         "number_of_subscribers": get_number_of_subscribers(population_sizes),
     }
-    create_xlsx_report(context, "template_test_1.xlsx")
+    create_xlsx_report(context, "template_test_1.xlsx", "test_1.xlsx")
 
 
-def create_xlsx_report(context, template_path):
+def create_xlsx_report(context, template_path, file_name):
     """Creating xlsx report"""
     writer = BookWriter(template_path)
     context["sheet_name"] = "sheet"
     writer.render_book(payloads=[context])
-    writer.save('test_1.xlsx')
+    writer.save(file_name)
 
 
 def get_norms_of_telephone_density(population_sizes):
