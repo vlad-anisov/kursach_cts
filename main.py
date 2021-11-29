@@ -10,13 +10,17 @@ bot = telebot.TeleBot(TOKEN)
 
 @bot.message_handler(content_types=['text'])
 def start_message(message):
-    try:
-        cities = message.text.split(",")
-        cities = [city.strip() for city in cities]
-        first_part(cities, bot, message)
-        get_map(cities, cities, bot, message)
-    except Exception as e:
-        bot.send_message(message.chat.id, f'Что-то пошло не так: {e}')
+    cities = message.text.split(",")
+    cities = [city.strip() for city in cities]
+    first_part(cities, bot, message)
+    get_map(cities, cities, bot, message)
+    # try:
+    #     cities = message.text.split(",")
+    #     cities = [city.strip() for city in cities]
+    #     first_part(cities, bot, message)
+    #     get_map(cities, cities, bot, message)
+    # except Exception as e:
+    #     bot.send_message(message.chat.id, f'Что-то пошло не так: {e}')
 
 
 if __name__ == '__main__':
