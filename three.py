@@ -252,12 +252,16 @@ def update_coordinates(cities):
         # print(g.population)
         city_to_coordinates[city] = f'{location.longitude},{location.latitude}'
 
-def get_map(cities, original_cities):
+def get_map(cities, original_cities, bot, telegram_message):
     # Обновляем словарь с координатами городов
     update_coordinates(cities)
     # Находим матрицу расстояний и записываем её в файл
     matrix = get_matrix(cities)
-    write_matrix(matrix)
+    with open('matrix.png', 'rb') as photo:
+        bot.send_photo(telegram_message.chat.id, photo)
+    # write_matrix(matrix)
+    # with open('Матрица расстояний.txt', encoding='utf8') as text:
+    #     bot.send_message(message.chat.id, text.read())
 
     # Рисуем расположение городов на карте
     # Если у нас метод ветвей и границ (кольцо), то мы сначала вычеслям путь, а потом рисуем пустую карту без путей
@@ -268,16 +272,20 @@ def get_map(cities, original_cities):
     way = solve_tsp_dynamic_programming(distance_matrix)[0]
     way.append(0)
     print_map_ring(cities, original_cities, way, 'Расположение городов на карте', False)
+    with open('Расположение городов на карте.png', 'rb') as photo:
+        bot.send_photo(telegram_message.chat.id, photo)
 
     # Соединение городов первым способом
     # way = atsp(matrix)
     # way = solve_tsp(matrix, optim_steps=10000000000000000)
-    distance_matrix = np.array(matrix)
-    way = solve_tsp_dynamic_programming(distance_matrix)[0]
-    way.append(0)
     cost = calculate_cost_ring(way, matrix)
     write_way_and_cost_ring(way, cost, 'Соединение городов методом ветвей и границ')
     print_map_ring(cities, original_cities, way, 'Соединение городов методом ветвей и границ', True)
+    with open('Соединение городов методом ветвей и границ.png', 'rb') as photo:
+        bot.send_photo(telegram_message.chat.id, photo)
+    with open('Соединение городов методом ветвей и границ.txt', encoding='utf8') as text:
+        bot.send_message(telegram_message.chat.id, text.read())
+
     added_city, added_cost = search_for_city_with_distance_of_more_than_280_km(way, matrix)
     message = f"\nВведём дополнительную поперечную связь между городами {cities[0]} и {cities[added_city]} " \
               f"протяжённостью {added_cost} км."
@@ -287,9 +295,15 @@ def get_map(cities, original_cities):
     with open(f'Соединение городов c поперечной связью.txt', "a", encoding="utf-8") as file:
         file.write(message)
     print_map_ring(cities, original_cities, way, f'Соединение городов c поперечной связью', True)
+    with open('Соединение городов c поперечной связью.png', 'rb') as photo:
+        bot.send_photo(telegram_message.chat.id, photo)
+    with open('Соединение городов c поперечной связью.txt', encoding='utf8') as text:
+        bot.send_message(telegram_message.chat.id, text.read())
 
     # Краткий путь от первого города до каждого
     calculate_path_from_first_to_each_cities(cities, matrix, way)
+    with open('Пути.txt', encoding='utf8') as text:
+        bot.send_message(telegram_message.chat.id, text.read())
 
 
 if __name__ == '__main__':

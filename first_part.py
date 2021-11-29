@@ -4,16 +4,20 @@ import erlang
 import formulas
 
 
-def first_part(cities):
+def first_part(cities, bot, message):
     data = get_data(cities)
     write_cities_data(data)
     write_erlang_data()
+    with open('first_table.xlsx', 'rb') as file:
+        bot.send_document(message.chat.id, file)
 
 
 def get_data(cities):
+    wb = load_workbook("cities.xlsx")
+    sheet = wb.worksheets[0]
     data = []
     for city in cities:
-        data.append(get_city_data(city))
+        data.append(get_city_data(city, sheet))
     return data
 
 
@@ -36,10 +40,8 @@ def write_erlang_data():
     wb.save("first_table.xlsx")
 
 
-def get_city_data(city):
+def get_city_data(city, sheet):
     data = [city]
-    wb = load_workbook("cities.xlsx")
-    sheet = wb.worksheets[0]
     for i in range(1, sheet.max_row + 1):
         value = sheet.cell(i, 1).value
         if value and value.lower() == f'г.{city}'.lower():
