@@ -13,8 +13,8 @@ def start_message(message):
     try:
         cities = message.text.split(",")
         cities = [city.strip() for city in cities]
-        get_map(cities, cities, bot, message)
         first_part(cities, bot, message)
+        get_map(cities, cities, bot, message)
     except Exception as e:
         bot.send_message(message.chat.id, f'Что-то пошло не так: {e}')
 

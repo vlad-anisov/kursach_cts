@@ -50,7 +50,13 @@ def write_erlang_data():
                 sheet.cell(row=i, column=j).value = erlang.extended_b_lines(erlang_value, 0.01)
         if i in [3, 6]:
             for j in range(3, 27):
-                sheet.cell(row=i, column=j).value = str(sheet2.cell(i, j).value).replace('.', ',')
+                sheet.cell(row=i, column=j).value = format(float(sheet2.cell(i, j).value), '.3f').replace('.', ',')
+        # if i == 6:
+        #     for j in range(3, 27):
+        #         sheet.cell(row=i, column=j).value = f'{sheet2.cell(i, j).value}00'
+        # if i == 3:
+        #     for j in range(3, 27):
+        #         sheet.cell(row=i, column=j).value = f'{sheet2.cell(i, j).value}00'
     wb.save("first_table.xlsx")
 
 
@@ -62,13 +68,13 @@ def get_city_data(city, sheet):
             data.append(0)
             for j in range(1, 10):
                 if sheet.cell(i - j, 1).value == 'городское население':
-                    value = str(sheet.cell(i - j, 4).value / 1000).replace('.', ',')
+                    value = str(format(sheet.cell(i - j, 4).value / 1000, '.3f')).replace('.', ',')
                     data[1] = value
                     break
             data.append(0)
             for j in range(1, 10):
                 if sheet.cell(i + j, 1).value == 'сельское население':
-                    value = str(sheet.cell(i + j, 4).value / 1000).replace('.', ',')
+                    value = str(format(sheet.cell(i + j, 4).value / 1000, '.3f')).replace('.', ',')
                     data[2] = value
                     break
             break
