@@ -23,7 +23,7 @@ def write_erlang_data():
     xl_model.write(dirpath="calculate")
     wb = load_workbook("test_1.xlsx")
     sheet = wb.worksheets[0]
-    wb2 = load_workbook("calculate/test_1.xlsx")
+    wb2 = load_workbook("calculate/TEST_1.XLSX")
     sheet2 = wb2.worksheets[0]
     for i in range(1, sheet.max_row + 1):
         if i in [11, 15]:
