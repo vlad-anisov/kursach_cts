@@ -62,6 +62,7 @@ def search_for_city_with_distance_of_more_than_280_km(way, matrix):
             if cost < min_cost:
                 min_cost = cost
                 min_city = city
+    # return 11, calculate_cost_ring([0,11], matrix)
     return min_city, min_cost
 
 
