@@ -15,7 +15,6 @@ import numpy as np
 from python_tsp.exact import solve_tsp_dynamic_programming
 from tsp_solver.greedy import solve_tsp
 
-
 MAPBOX_KEY = 'pk.eyJ1IjoiYW5pc292IiwiYSI6ImNrMm90Mm1sZTEzZGwzbmxubHlpanVwbnUifQ.pqzxDULrQBz-arhWo8BaKA'
 
 city_to_coordinates = {}
@@ -87,6 +86,7 @@ def get_city_with_distance_of_more_than_280_km(way, matrix):
         if cost + matrix[0][n] > 280:
             return n
 
+
 def get_polyline(cities):
     start = city_to_coordinates[cities[0]]
     finish = city_to_coordinates[cities[-1]]
@@ -121,7 +121,8 @@ def get_matrix(cities):
     df.index += 1
     df.columns += 1
     df = df.style.set_properties(**{'text-align': 'center'})
-    df = df.set_table_styles([{'selector': '', 'props': [('border', '1px solid black')]}, {'selector': 'th', 'props': [('text-align', 'center')]}])
+    df = df.set_table_styles([{'selector': '', 'props': [('border', '1px solid black')]},
+                              {'selector': 'th', 'props': [('text-align', 'center')]}])
     dfi.export(df, 'matrix.png', table_conversion='matplotlib')
     return matrix
 
@@ -228,6 +229,7 @@ def calculate_path_from_first_to_each_cities(cities, matrix, way):
     with open(f'Пути.txt', "w+", encoding="utf-8") as file:
         file.write(message)
 
+
 def get_max_path_from_first_to_each_cities(matrix, way):
     new_matrix = create_new_matrix(matrix, way)
     graph = csr_matrix(new_matrix)
@@ -242,6 +244,7 @@ def get_max_path_from_first_to_each_cities(matrix, way):
             max_cost = cost
     return max_cost
 
+
 def update_coordinates(cities):
     global city_to_coordinates
     city_to_coordinates = {}
@@ -252,6 +255,7 @@ def update_coordinates(cities):
         # g = geocoder.geonames(name, country='BY', key='anisov')
         # print(g.population)
         city_to_coordinates[city] = f'{location.longitude},{location.latitude}'
+
 
 def get_map(cities, original_cities, bot, telegram_message):
     # Обновляем словарь с координатами городов
@@ -305,6 +309,19 @@ def get_map(cities, original_cities, bot, telegram_message):
     calculate_path_from_first_to_each_cities(cities, matrix, way)
     with open('Пути.txt', encoding='utf8') as text:
         bot.send_message(telegram_message.chat.id, text.read())
+
+
+def get_way(cities):
+    update_coordinates(cities)
+    matrix = get_matrix(cities)
+    distance_matrix = np.array(matrix)
+    way = solve_tsp_dynamic_programming(distance_matrix)[0]
+    way.append(0)
+    cost = calculate_cost_ring(way, matrix)
+    added_city, added_cost = search_for_city_with_distance_of_more_than_280_km(way, matrix)
+    cost += added_cost
+    way.extend([added_city])
+    return way, matrix
 
 
 if __name__ == '__main__':
