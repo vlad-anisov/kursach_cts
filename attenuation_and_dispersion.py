@@ -1,7 +1,6 @@
-import city as city
-
 from three import get_way, calculate_cost_ring
 from first_part import create_xlsx_report
+
 
 def attenuation_and_dispersion(cities, bot, message):
     cities = [city.split() for city in cities[:-1]]
