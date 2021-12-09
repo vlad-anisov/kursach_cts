@@ -50,19 +50,25 @@ def search_for_city_with_distance_of_more_than_280_km(way, matrix):
     #         added_city = city
     #         added_cost = matrix[0][city]
     # return added_city, added_cost
+    is_search = False
     min_cost = float("inf")
     min_city = None
     for city in way[2:-2]:
         new_way = list(way)
         new_way.append(city)
         max_cost = get_max_path_from_first_to_each_cities(matrix, new_way)
+        if max_cost > 280:
+            is_search = True
         if max_cost < 280:
             cost = matrix[0][city]
             if cost < min_cost:
                 min_cost = cost
                 min_city = city
     # return 11, calculate_cost_ring([0,11], matrix)
-    return min_city, min_cost
+    if is_search:
+        return min_city, min_cost
+    return None, None
+
 
 
 def get_city_with_distance_of_more_than_280_km(way, matrix):
@@ -249,7 +255,7 @@ def update_coordinates(cities):
     global city_to_coordinates
     city_to_coordinates = {}
     for city in cities:
-        user_agent = f"{random.randint(1, 1000)}fnkjsdnfjsndjsa_kursach_telegram_anisov{random.randint(1, 1000)}"
+        user_agent = f"fndjsa_{random.randint(1, 1000)}kursac_anisov{random.randint(1, 1000)}"
         geolocator = Nominatim(user_agent=user_agent)
         location = geolocator.geocode(f"{city}, Беларусь", timeout=100)
         # g = geocoder.geonames(name, country='BY', key='anisov')
@@ -292,18 +298,19 @@ def get_map(cities, original_cities, bot, telegram_message):
         bot.send_message(telegram_message.chat.id, text.read())
 
     added_city, added_cost = search_for_city_with_distance_of_more_than_280_km(way, matrix)
-    message = f"\nВведём дополнительную поперечную связь между городами {cities[0]} и {cities[added_city]} " \
-              f"протяжённостью {added_cost} км."
-    cost += added_cost
-    way.extend([added_city])
-    write_way_and_cost_ring(way, cost, f'Соединение городов c поперечной связью')
-    with open(f'Соединение городов c поперечной связью.txt', "a", encoding="utf-8") as file:
-        file.write(message)
-    print_map_ring(cities, original_cities, way, f'Соединение городов c поперечной связью', True)
-    with open('Соединение городов c поперечной связью.png', 'rb') as photo:
-        bot.send_photo(telegram_message.chat.id, photo)
-    with open('Соединение городов c поперечной связью.txt', encoding='utf8') as text:
-        bot.send_message(telegram_message.chat.id, text.read())
+    if added_city and added_cost:
+        message = f"\nВведём дополнительную поперечную связь между городами {cities[0]} и {cities[added_city]} " \
+                  f"протяжённостью {added_cost} км."
+        cost += added_cost
+        way.extend([added_city])
+        write_way_and_cost_ring(way, cost, f'Соединение городов c поперечной связью')
+        with open(f'Соединение городов c поперечной связью.txt', "a", encoding="utf-8") as file:
+            file.write(message)
+        print_map_ring(cities, original_cities, way, f'Соединение городов c поперечной связью', True)
+        with open('Соединение городов c поперечной связью.png', 'rb') as photo:
+            bot.send_photo(telegram_message.chat.id, photo)
+        with open('Соединение городов c поперечной связью.txt', encoding='utf8') as text:
+            bot.send_message(telegram_message.chat.id, text.read())
 
     # Краткий путь от первого города до каждого
     calculate_path_from_first_to_each_cities(cities, matrix, way)
@@ -319,8 +326,9 @@ def get_way(cities):
     way.append(0)
     cost = calculate_cost_ring(way, matrix)
     added_city, added_cost = search_for_city_with_distance_of_more_than_280_km(way, matrix)
-    cost += added_cost
-    way.extend([added_city])
+    if added_city and added_cost:
+        cost += added_cost
+        way.extend([added_city])
     return way, matrix
 
 

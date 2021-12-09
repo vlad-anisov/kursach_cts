@@ -7,15 +7,16 @@ import formulas
 
 
 def first_part(cities, bot, message):
+    number_of_cities = len(cities)
     data = get_data(cities)
     write_cities_data(data)
-    write_erlang_data()
-    delete_first_city_from_first_table()
+    write_erlang_data(number_of_cities)
+    delete_first_city_from_first_table(number_of_cities)
     with open('first_table.xlsx', 'rb') as file:
         bot.send_document(message.chat.id, file)
 
     write_second_data(data)
-    delete_first_city_from_second_table()
+    delete_first_city_from_second_table(number_of_cities)
     with open('second_table.xlsx', 'rb') as file:
         bot.send_document(message.chat.id, file)
 
@@ -50,25 +51,27 @@ def get_number_of_people(population_sizes, norms_of_telephone_density):
     return number_of_people
 
 
-def delete_first_city_from_first_table():
+def delete_first_city_from_first_table(number_of_cities):
     wb = load_workbook("first_table.xlsx")
     sheet = wb.worksheets[0]
     for i in range(1, sheet.max_row + 1):
         if i in [3, 4, 5, 6, 9, 10, 11, 12, 13, 14, 15, 16, 17]:
             sheet.cell(row=i, column=3).value = "-"
+    sheet.delete_cols(number_of_cities * 2 + 3, 30)
     wb.save("first_table.xlsx")
 
 
-def delete_first_city_from_second_table():
+def delete_first_city_from_second_table(number_of_cities):
     wb = load_workbook("second_table.xlsx")
     sheet = wb.worksheets[0]
     for i in range(1, sheet.max_row + 1):
         if i in [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 17]:
             sheet.cell(row=i, column=3).value = "-"
+    sheet.delete_cols(number_of_cities * 2 + 3, 30)
     wb.save("second_table.xlsx")
 
 
-def write_erlang_data():
+def write_erlang_data(number_of_cities):
     xl_model = formulas.ExcelModel().loads("first_table.xlsx").finish()
     xl_model.calculate()
     xl_model.write(dirpath="calculate")
@@ -78,11 +81,11 @@ def write_erlang_data():
     sheet2 = wb2.worksheets[0]
     for i in range(1, sheet.max_row + 1):
         if i in [11, 15]:
-            for j in range(3, 27):
+            for j in range(3, number_of_cities * 2 + 3):
                 erlang_value = float(sheet2.cell(i - 1, j).value)
                 sheet.cell(row=i, column=j).value = erlang.extended_b_lines(erlang_value, 0.01)
         if i in [3, 6]:
-            for j in range(3, 27):
+            for j in range(3, number_of_cities * 2 + 3):
                 # sheet.cell(row=i, column=j).value = format(float(sheet2.cell(i, j).value), '.3f').replace('.', ',')
                 sheet.cell(row=i, column=j).value = float(sheet2.cell(i, j).value)
         # if i == 6:
