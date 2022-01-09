@@ -40,9 +40,9 @@ def start_message(message):
         cities = message.text.split(",")
         cities = [city.strip() for city in cities]
         cities = [city[:-1] if city[-1] == '.' else city for city in cities]
-        if len(cities) == 13:
-            attenuation_and_dispersion(cities, bot, message)
-            return
+        # if len(cities) == 13:
+            # attenuation_and_dispersion(cities, bot, message)
+            # return
         if len(cities) < 4 or len(cities) > 12:
             bot.send_message(message.chat.id, f'Должно быть от 4 до 12 городов, а вы ввели {len(cities)}')
             return
