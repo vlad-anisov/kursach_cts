@@ -101,7 +101,7 @@ def get_city_data(city, sheet):
     data = [city]
     for i in range(1, sheet.max_row + 1):
         value = sheet.cell(i, 1).value
-        if value and value.lower() == f'г.{city}'.lower():
+        if value and value.lower() in [f'г.{city}'.lower(), f'г.п.{city}'.lower()]:
             data.append(0)
             # for j in range(1, 10):
             #     if sheet.cell(i - j, 1).value == 'городское население':
